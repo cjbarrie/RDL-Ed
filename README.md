@@ -1,5 +1,7 @@
 # RDL-Edinburgh
 
+![Alt Text](coursebanner.png)
+
 This repo contains teaching materials for a four lecture series in Researching Digital Life core course, University of Edinburgh. 
 
 You can use this in several ways:
