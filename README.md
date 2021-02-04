@@ -1,1 +1,3 @@
-# RDL-2021
+# RDL-Edinburgh
+
+This repo contains teaching materials for a four lectures in Researching Digital Life core course, University of Edinburgh. 
