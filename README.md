@@ -6,8 +6,14 @@ This repo contains teaching materials for a four lecture series in Researching D
 
 You can use this in several ways:
 
-1. You might want to "clone" the entire repository and save all of the files in here locally. That's fine if you know how to navigate the different file types contained in here. 
-2. You can use the quick links below to access online versions of the content, which are more easily accessible. I suggest you then copy and paste code snippets from the online documents into your own .R scripts.
+1. You might want to "clone" the entire repository and save all of the files in here locally. That's fine if you have some experience using R and R Markdown and know how to navigate the different file types contained in here. 
+2. Recommended for beginners: you can use the quick links below to access online versions of the content, which are more easily accessible. I suggest you then copy and paste code snippets from the online documents into your own .R scripts.
+
+## Outline of the materials
+
+These materials are intended as supplementary to the lectures and tutorials you will be doing. They are not compulsory to access, you will not be assessed on the content, and you can browse them at your leisure. They do, nonetheless, provide a useful introduction to the use of R for obtaining, manipulating, and analyzing different types of data. 
+
+You will also find in the Introduction documents an overview of how you install R and RStudio on your own devices, as well as some pointers on where to go for more help and information using these tools.
 
 ## Quick links for each week
 
