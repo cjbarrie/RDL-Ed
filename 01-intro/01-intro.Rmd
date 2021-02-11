@@ -28,7 +28,7 @@ The exercises I provide use the <tt>R</tt> programming language. For the uninita
 
 Each week the readings selected are aimed at the analysis of a different type of digital data and different methods to analyze them. Here, I aim to convince you that large-N quantitative analyses can rely on diverse forms of data and be credibly paired with more qualitative modes of analysis.
 
-In the last instance, what we are working with are quantitative information arranged in the form of a spreadsheet. In <tt>R</tt>, we usually refer to these spreadsheets as ``dataframes." These are, quite simply, sets of variables (vectors of numbers or words), stored as columns alongside each other. Nothing more, nothing less!
+In the last instance, what we are working with are quantitative information arranged in the form of a spreadsheet. In <tt>R</tt>, we usually refer to these spreadsheets as "dataframes." These are, quite simply, sets of variables (vectors of numbers or words), stored as columns alongside each other. Nothing more, nothing less!
 
 What we'll discover over the course of this module is that these data, while similar in appearance, permit us to answer an extremely diverse set of questions.
 
