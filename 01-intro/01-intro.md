@@ -4,7 +4,7 @@ subtitle: "Lectures 6-9 Introduction"
 author:
   name: Christopher Barrie
   affiliation: University of Edinburgh | [RDL](https://github.com/cjbarrie/RDL-Ed)
-# date: Lecture 6  #"04 February 2021"
+# date: Lecture 6  #"11 February 2021"
 output: 
   html_document:
     theme: flatly
@@ -26,13 +26,13 @@ The contents of each week's lecture is by no means exhaustive---these are design
 
 The exercises I provide use the <tt>R</tt> programming language. For the uninitated (and the initiated!) a great point of reference is the book "R For Data Science" by @Wickham2017.
 
-Each week the readings selected are aimed at the analysis of a different type of data. Here, I aim to convince you that large-N quantitative analyses can rely on diverse forms of data and be credibly paired with more qualitative modes of analysis.
+Each week the readings selected are aimed at the analysis of a different type of digital data and different methods to analyze them. Here, I aim to convince you that large-N quantitative analyses can rely on diverse forms of data and be credibly paired with more qualitative modes of analysis.
 
-In the last instance, what we are working with are quantitative information arranged in the form of a spreadsheet. In <tt>R</tt>, we usually refer to these spreadsheets as ``dataframes." These are, quite simply, sets of variables (vectors of numbers or words), stored as columns alongside each other. Nothing more, nothing less!
+In the last instance, what we are working with are quantitative information arranged in the form of a spreadsheet. In <tt>R</tt>, we usually refer to these spreadsheets as "dataframes." These are, quite simply, sets of variables (vectors of numbers or words), stored as columns alongside each other. Nothing more, nothing less!
 
 What we'll discover over the course of this module is that these data, while similar in appearance, permit us to answer an extremely diverse set of questions.
 
-Note: The articles are challenging but accessible. You will not understand every last thing in them. But I ask that you try to unpick the underlying intuition of the articles and think about what can and cannot be answered with the methods used. 
+Note: The articles I set for reading each week are challenging but accessible. You will not understand every last thing in them. But I ask that you try to unpick the underlying intuition of the articles and think about what can and cannot be answered with the methods used. 
 
 Think also about validity. This might be "construct" validity, i.e., whether the authors manage to capture what they claim to be measuring with the measurement techniques they use; "internal" validity, i.e., whether the analytical techniques (quantitative, computational or otherwise) they use are consistently capturing what they claim to be capturing; and external validity, i.e., whether their methods capture something that has generalizable lessons for other contexts. 
 
@@ -40,7 +40,7 @@ Finally, think too about sampling: where did the data come from? How was it gene
 
 # Introduction to R 
 
-This section is designed to ensure you are familiar with the <tt>R</tt> environment. It also provides guidelines on how to use the Swirl package in <tt>R</tt>: a built-in tutorial that familiarizes users with basic <tt>R</tt> commands. I thank Julia de Romémont for sharing an earlier version of this introductory section. 
+This section is designed to ensure you are familiar with the <tt>R</tt> environment. I thank Julia de Romémont for sharing an earlier version of this introductory section. 
 
 ## Getting started with R at home 
 
@@ -220,7 +220,7 @@ setwd("c:/docs/mydir")
 
 ## Practicing in R 
 
-You're going to have your own lab tutorials in <tt>R</tt> and so this is not the appropriate place to teach you everything about the programming language. This course is principally designed to get you thinking about quantitative research methods. What I recommend that **all** of you do, though, before we begin our classes is to familiarize yourself with some of the basics of <tt>R</tt> in your own time.
+The best way to learn <tt>R</tt> is to use it. These weekly lectures and exercises will not be the place to become fully proficient in <tt>R</tt> . Instead, they're designed to give you a taster of the language and some applied examples. And this course is principally designed to get you thinking about digital research methods. What I recommend that **all** of you do, though, before we begin our lectures is to familiarize yourself with some of the basics of <tt>R</tt> in your own time.
 
 The best places to start doing this are:
 
@@ -241,7 +241,7 @@ run_tutorial(name = "ex-data-basics", package = "learnr") #this will launch the 
 
 Once you've dipped into the "R for Data Science" book you'll hear a lot about the so-called <tt>tidyverse</tt> in R. This is essentially a set of packages that use an alternative, and more intuitive, way of interacting with data. The main difference you'll notice here is that, instead of having separate lines for each function we want to run, sets of functions are "piped" into each other using "pipe" functions, which look have the appearance: `%>%`. 
 
-In the first set of weekly exercises I will provide code in both the base R way, which you will predominantly use for your stats. tutorials. From Week One onwards I will only be using <tt>tidyverse</tt> syntax. It is worth getting used to this syntax because it has recently been incorporated into base R functionality, meaning it will likely become the norm from now on.
+I will be using "tidy" syntax in the weekly exercises for each lecture. If anything is unclear, I'm happy to provide the equivalents in "base" R too. The majority of users now use tidy syntax to interact with R, however, so this is worth learning. It is also worth getting used to this syntax because it is now being incorporated into base R functionality, meaning it will likely become the norm from now on.
 
 
 ## References
