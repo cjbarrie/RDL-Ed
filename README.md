@@ -17,6 +17,6 @@ You will also find in the Introduction documents an overview of how you install 
 
 ## Quick links for each week
 
-- Introduction: \[[Link](https://github.com/cjbarrie/RDL-Ed/blob/main/01-intro/01-intro.html)\]
-- Week 6 Exercise: Text as data \[[Link](https://github.com/cjbarrie/RDL-Ed/blob/main/02-text-as-data/02-week6.html)\]
+- Introduction: \[[Link](https://raw.githack.com/cjbarrie/RDL-Ed/main/01-intro/01-intro.html)\]
+- Week 6 Exercise: Text as data \[[Link](https://raw.githack.com/cjbarrie/RDL-Ed/main/02-text-as-data/02-week6.html)\]
 
