@@ -205,7 +205,7 @@ run_tutorial(name = "ex-data-basics", package = "learnr") #this will launch the 
 
 Once you've dipped into the "R for Data Science" book you'll hear a lot about the so-called <tt>tidyverse</tt> in R. This is essentially a set of packages that use an alternative, and more intuitive, way of interacting with data. The main difference you'll notice here is that, instead of having separate lines for each function we want to run, sets of functions are "piped" into each other using "pipe" functions, which look have the appearance: `%>%`. 
 
-In the first set of weekly exercises I will provide code in both the base R way, which you will predominantly use for your stats. tutorials. From Week One onwards I will only be using <tt>tidyverse</tt> syntax. It is worth getting used to this syntax because it has recently been incorporated into base R functionality, meaning it will likely become the norm from now on.
+I will be using "tidy" syntax in the weekly exercises for each lecture. If anything is unclear, I'm happy to provide the equivalents in "base" R too. The majority of users now use tidy syntax to interact with R, however, so this is worth learning. It is also worth getting used to this syntax because it is now being incorporated into base R functionality, meaning it will likely become the norm from now on.
 
 
 ## References
