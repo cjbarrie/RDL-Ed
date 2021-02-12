@@ -4,7 +4,7 @@ subtitle: "Lectures 6: Text as data"
 author:
   name: Christopher Barrie
   affiliation: University of Edinburgh | [RDL](https://github.com/cjbarrie/RDL-Ed)
-# date: Lecture 6  #"04 February 2021"
+# date: Lecture 6  #"12 February 2021"
 output: 
   html_document:
     theme: flatly
@@ -54,7 +54,8 @@ library(tidyverse) # loads dplyr, ggplot2, and others
 library(tidytext) # includes set of functions useful for manipulating text
 library(ggthemes) # includes a set of themes to make your visualizations look nice!
 library(readr) # more informative and easy way to import data
-library(topicmodels)
+library(babynames) #for gender predictions
+library(topicmodels) # if you want to try your hand at topic modelling!
 ```
 
 For this tutorial, we will be using data that I have pre-cleaned and provided in .csv format. The data come from the Edinburgh Book Festival API, and provide data for every event that has taken place at the Edinburgh Book Festival, which runs every year in the month of August, for nine years: 2012-2020. There are many questions we might ask of these data. In this tutorial, we will investigate the contents of each event, and the speakers at each event, to determine if there are any trends in gender representation over time.
@@ -463,31 +464,202 @@ ggplot(edbf_counts, aes(year, sum_wom / year_total, group=1)) +
 
 ![](02-week6_files/figure-html/unnamed-chunk-24-1.png)<!-- -->
 
-## Topic models 
+## Gender prediction
+
+We might decide that this measure is inadequate or too expansive to answer the question at hand. Another way of measuring representation in cultural production is to measure the gender of the authors who spoke at these events.
+
+Of course, this would take quite some time if we were to individually code each of the approximately 6000 events included in this dataset.
+
+But there do exist alternative techniques for imputing gender based on the name of an individual. 
+
+We first create a new data.frame object, selecting just the columns for artist name and year. Then we generate a new column containing just the artist's (author's) first name:
 
 
 ```r
-#The below is how to run a topic model with these data. Not v informative beyond code required to conduct the analysis
+# get columns for artist name and year, omitting NAs
+gendes <- edbfdata %>%
+  select(artist, year) %>%
+  na.omit()
 
-edbf_dtm <- edbf_term_counts %>%
-  cast_dtm(year, word, n)
-
-edbf_lda <- LDA(edbf_dtm, k = 4, control = list(seed = 1234))
-
-edbf_year_topics <- tidy(edbf_lda, matrix = "beta")
-
-top_terms <- edbf_year_topics %>%
-  group_by(topic) %>%
-  top_n(5, beta) %>%
-  ungroup() %>%
-  arrange(topic, -beta)
-
-top_terms %>%
-  mutate(term = reorder_within(term, beta, topic)) %>%
-  ggplot(aes(beta, term, fill = factor(topic))) +
-  geom_col(show.legend = FALSE) +
-  facet_wrap(~ topic, scales = "free") +
-  scale_y_reordered()
+# generate new column with just the artist's (author's) first name
+gendes$name <- sub(" .*", "", gendes$artist)
 ```
 
-## References
+A set of packages called <tt>gender</tt> and <tt>genderdata</tt> used to make the process of predicting gender based on a given individual's name pretty straightforward. This technique worked with reference to  U.S. Social Security Administration baby name data. Given that the most common gender associated with a given name changes over time, the function also allows us to specify the range of years for the cohort in question whose gender we are inferring. Given that we don't know how wide the cohort of artists is that we have here, we could specify a broad range of 1920-2000.
+
+
+```r
+genpred <- gender(gendes$name,
+       years = c(1920, 2000))
+```
+
+Unfortunately, this package no longer works with newer versions of R. I have recreated it using the original "babynames" data, which comes bundled in the <tt>babynames</tt> package. You don't necessarily have to follow each step of how I have done this---I include this information for the sake of completeness.
+
+The <tt>babynames</tt> package. contains, for each year, the number of children born with a given name, as well as their sex. With this information, we can then calculate the total number of individuals with a given name born for each sex in a given year. Given we also have the total number of babies born in total cross these records, we can denominate (divide) the sums for each name by the total number of births for each sex in each year. We can take this proportion as representing the probability that a given individual in our Edinburgh Fringe dataset is male or female. 
+
+More information on the <tt>babynames</tt> package can be found [here](https://www.ssa.gov/oact/babynames/limits.html). 
+
+We first load the babynames package into the R environment as a data.frame object. Because the data.frame "babynames" is contained in the <tt>babynames</tt> package we can just call it as an object and store it with . This dataset contains names for all years over a period 1800--2019. The variable "n" represents the number of babies born with the given name and sex in that year, and the "prop" represents, according to the package materials accessible [here](https://cran.r-project.org/web/packages/babynames/babynames.pdf), "n divided  by  total  number  of applicants in that year, which means proportions are of people of that gender with that name born in that year."
+
+
+```r
+babynames <- babynames
+head(babynames)
+```
+
+```
+## # A tibble: 6 x 5
+##    year sex   name          n   prop
+##   <dbl> <chr> <chr>     <int>  <dbl>
+## 1  1880 F     Mary       7065 0.0724
+## 2  1880 F     Anna       2604 0.0267
+## 3  1880 F     Emma       2003 0.0205
+## 4  1880 F     Elizabeth  1939 0.0199
+## 5  1880 F     Minnie     1746 0.0179
+## 6  1880 F     Margaret   1578 0.0162
+```
+
+We then calculate the total number of babies of female and male sex born in each year. Then we merge these to get a combined dataset of male and female baby names by year. We then merge this information back into the original babynames data.frame object.
+
+
+```r
+totals_female <- babynames %>%
+  filter(sex=="F") %>%
+  group_by(year) %>%
+  summarise(total_female = sum(n))
+
+totals_male <- babynames %>%
+  filter(sex=="M") %>%
+  group_by(year) %>%
+  summarise(total_male = sum(n))
+
+totals <- merge(totals_female, totals_male)
+
+totsm <- merge(babynames, totals, by = "year")
+head(totsm)
+```
+
+```
+##   year sex      name    n       prop total_female total_male
+## 1 1880   F      Mary 7065 0.07238359        90993     110491
+## 2 1880   F      Anna 2604 0.02667896        90993     110491
+## 3 1880   F      Emma 2003 0.02052149        90993     110491
+## 4 1880   F Elizabeth 1939 0.01986579        90993     110491
+## 5 1880   F    Minnie 1746 0.01788843        90993     110491
+## 6 1880   F  Margaret 1578 0.01616720        90993     110491
+```
+
+We can then calculate, for all babies born on or after 1920, the number of babies born with that name and sex. With this information, we can then get the proportion of all babies with a given name that were of a particular sex. For example, if 92% of babies born with the name "Mary" were female, this would give us a .92 probability that an individual with the name "Mary" is female. We do this for every name in the dataset, excluding names for which the proportion is equal to .5; i.e., for names that we cannot adjudicate between whether they are more or less likely male or female.
+
+
+```r
+totprops <- totsm %>%
+  filter(year >= 1920) %>%
+  group_by(name, year) %>%
+  mutate(sumname = sum(n),
+         prop = ifelse(sumname==n, 1,
+                       n/sumname)) %>%
+  filter(prop!=.5) %>%
+  group_by(name) %>%
+  slice(which.max(prop)) %>%
+  summarise(prop = max(prop),
+            totaln = sum(n),
+            name = max(name),
+            sex = unique(sex))
+
+head(totprops)
+```
+
+```
+## # A tibble: 6 x 4
+##   name       prop totaln sex  
+##   <chr>     <dbl>  <int> <chr>
+## 1 Aaban         1      5 M    
+## 2 Aabha         1      7 F    
+## 3 Aabid         1      5 M    
+## 4 Aabir         1      5 M    
+## 5 Aabriella     1      5 F    
+## 6 Aada          1      5 F
+```
+
+Once we have our proportions for all names, we can then merge these back with the names of our artists from the Edinburgh Fringe Book Festival. We can then easily plot the proportion of artists at the Festival who are male versus female in each year of the Festival. 
+
+
+```r
+ednameprops <- merge(totprops, gendes, by = "name")
+
+ggplot(ednameprops, aes(x=year, fill = factor(sex))) +
+  geom_bar(position = "fill") +
+  xlab("Year") +
+  ylab("% women authors") +
+  labs(fill="") +
+  scale_y_continuous(labels = scales::percent_format(accuracy = 1)) +
+  theme_tufte(base_family = "Helvetica") +
+  geom_abline(slope=0, intercept=0.5,  col = "black",lty=2)
+```
+
+![](02-week6_files/figure-html/unnamed-chunk-30-1.png)<!-- -->
+
+What can we conclude form this graph?
+
+Note that when we merged the proportions from th "babynames" data with our Edinburgh Fringe data we lost some observations. This is because some names in the Edinburgh Fringe data had no match in the "babynames" data. Let's look at the names that had no match:
+
+
+```r
+names1 <- ednameprops$name
+names2 <- gendes$name
+diffs <- setdiff(names2, names1)
+diffs
+```
+
+```
+##   [1] "L"             "Kapka"         "Menzies"       "Ros"          
+##   [5] "G"             "Pankaj"        "Uzodinma"      "Rodge"        
+##   [9] "A"             "Zoë"           "László"        "Sadakat"      
+##  [13] "Michèle"       "Maajid"        "Yrsa"          "Ahdaf"        
+##  [17] "Noo"           "Dilip"         "Sjón"          "François"     
+##  [21] "J"             "K"             "Aonghas"       "S"            
+##  [25] "Bashabi"       "Kjartan"       "Romesh"        "T"            
+##  [29] "Chibundu"      "Yiyun"         "Fiammetta"     "W"            
+##  [33] "Sindiwe"       "Cat"           "Jez"           "Fi"           
+##  [37] "Sunder"        "Saci"          "C.J"           "Halik"        
+##  [41] "Niccolò"       "Sifiso"        "C.S."          "DBC"          
+##  [45] "Phyllida"      "R"             "Struan"        "C.J."         
+##  [49] "SF"            "Nadifa"        "Jérome"        "D"            
+##  [53] "Xiaolu"        "Ramita"        "John-Paul"     "Ha-Joon"      
+##  [57] "Niq"           "Andrés"        "Sasenarine"    "Frane"        
+##  [61] "Alev"          "Gruff"         "Line"          "Zakes"        
+##  [65] "Pip"           "Witi"          "Halsted"       "Ziauddin"     
+##  [69] "J."            "Åsne"          "Alecos"        "."            
+##  [73] "Julián"        "Sunjeev"       "A.C.S"         "Etgar"        
+##  [77] "Hyeonseo"      "Jaume"         "A."            "Jesús"        
+##  [81] "Jón"           "Helle"         "M"             "Jussi"        
+##  [85] "Aarathi"       "Shappi"        "Macastory"     "Odafe"        
+##  [89] "Chimwemwe"     "Hrefna"        "Bidisha"       "Packie"       
+##  [93] "Tahmima"       "Sara-Jane"     "Tahar"         "Lemn"         
+##  [97] "Neu!"          "Jürgen"        "Barroux"       "Jan-Philipp"  
+## [101] "Non"           "Metaphrog"     "Wilko"         "Álvaro"       
+## [105] "Stef"          "Erlend"        "Grinagog"      "Norma-Ann"    
+## [109] "Fuchsia"       "Giddy"         "Joudie"        "Sav"          
+## [113] "Liu"           "Jayne-Anne"    "Wioletta"      "Sinéad"       
+## [117] "Katherena"     "Siân"          "Dervla"        "Teju"         
+## [121] "Iosi"          "Daša"          "Cosey"         "Bettany"      
+## [125] "Thordis"       "Uršuľa"        "Limmy"         "Meik"         
+## [129] "Zindzi"        "Dougie"        "Ngugi"         "Inua"         
+## [133] "Ottessa"       "Bjørn"         "Novuyo"        "Rhidian"      
+## [137] "Sibéal"        "Hsiao-Hung"    "Audur"         "Sadek"        
+## [141] "Özlem"         "Zaffar"        "Jean-Pierre"   "Lalage"       
+## [145] "Yaba"          "H"             "DJ"            "Sigitas"      
+## [149] "Clémentine"    "Celeste-Marie" "Marawa"        "Ghillie"      
+## [153] "Ahdam"         "Suketu"        "Goenawan"      "Niviaq"       
+## [157] "Steinunn"      "Shoo"          "Ibram"         "Venki"        
+## [161] "DeRay"         "Diarmaid"      "Serhii"        "Harkaitz"     
+## [165] "Adélaïde"      "Agustín"       "Jérôme"        "Siobhán"      
+## [169] "Nesrine"       "Jokha"         "Gulnar"        "Uxue"         
+## [173] "Taqralik"      "Tayi"          "E"             "Dapo"         
+## [177] "Dunja"         "Maaza"         "Wayétu"        "Shokoofeh"
+```
+
+Do we notice anything about these names? What does this tell us about the potential biases of using such sources as US baby names data as a foundation for gender prediction? What are alternative ways we might go about this task?
+
+## References 
