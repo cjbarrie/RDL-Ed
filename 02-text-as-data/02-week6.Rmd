@@ -56,7 +56,6 @@ library(tidytext) # includes set of functions useful for manipulating text
 library(ggthemes) # includes a set of themes to make your visualizations look nice!
 library(readr) # more informative and easy way to import data
 library(babynames) #for gender predictions
-library(topicmodels) # if you want to try your hand at topic modelling!
 ```
 
 For this tutorial, we will be using data that I have pre-cleaned and provided in .csv format. The data come from the Edinburgh Book Festival API, and provide data for every event that has taken place at the Edinburgh Book Festival, which runs every year in the month of August, for nine years: 2012-2020. There are many questions we might ask of these data. In this tutorial, we will investigate the contents of each event, and the speakers at each event, to determine if there are any trends in gender representation over time.
