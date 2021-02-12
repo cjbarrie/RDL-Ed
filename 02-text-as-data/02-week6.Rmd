@@ -61,9 +61,9 @@ library(topicmodels) # if you want to try your hand at topic modelling!
 
 For this tutorial, we will be using data that I have pre-cleaned and provided in .csv format. The data come from the Edinburgh Book Festival API, and provide data for every event that has taken place at the Edinburgh Book Festival, which runs every year in the month of August, for nine years: 2012-2020. There are many questions we might ask of these data. In this tutorial, we will investigate the contents of each event, and the speakers at each event, to determine if there are any trends in gender representation over time.
 
-The first task, then, is to read in these data. We can do this with the `read.csv()` function, which is a base R fuction -- i.e., you do need to load and packages to do this.
+The first task, then, is to read in these data. We can do this with the `read_csv()` function.
 
-The `read.csv()` function takes the .csv file and loads it into the working environment as a data frame object called "edbfdata." We can call this object anything though. Try changing the name of the object before the <- arrow. Note that R does not allow names with spaces in, however. It is also not a good idea to name the object something beginning with numbers, as this means you have to call the object within ` marks.
+The `read_csv()` function takes the .csv file and loads it into the working environment as a data frame object called "edbfdata." We can call this object anything though. Try changing the name of the object before the <- arrow. Note that R does not allow names with spaces in, however. It is also not a good idea to name the object something beginning with numbers, as this means you have to call the object within ` marks.
 
 ```{r}
 edbfdata <- read_csv("data/edbookfestall.csv")
