@@ -23,7 +23,7 @@ bibliography: RDL.bib
 
 This week you'll be discussing in the tutorials four articles by @Karamshuk2017, @Flores2017, @Nelson2020, and @Kozlowski2019. 
 
-The hands-on exercise for Week 1 uses a different source of data, and here I introduce you to how we might gather, clean, and analyze text data. In so doing, I also refer to the article by @Nelson2020, and the steps she proposes for a "grounded" approach to the analysis of text data. The argument @Nelson2020 makes is that we can use computational techniques for the discovery of topics within text, and then employ more interpretative techniques to analyze meaning in the text itself. This is a way, @Nelson2020 argues, to overcome the problems of reproducibility inherent to both "humanist" and "structual" approaches to content analysis. Here, we will be mainly focusing on what @Nelson2020 refers to as "lexical-based techniques," though we will also have the chance to perform a simple classification task. 
+The hands-on exercise for Week 1 uses a different source of data, and here I introduce you to how we might gather, clean, and analyze text data. In so doing, I also refer to the article by @Nelson2020, and the steps she proposes for a "grounded" approach to the analysis of text data. The argument @Nelson2020 makes is that we can use computational techniques for the discovery of topics within text, and then employ more interpretative techniques to analyze meaning in the text itself. This is a way, @Nelson2020 argues, to overcome the problems of reproducibility inherent to both "humanist" and "structural" approaches to content analysis. Here, we will be mainly focusing on what @Nelson2020 refers to as "lexical-based techniques," though we will also have the chance to perform a simple classification task. 
 
 ## Week 6 Exercise 
 
@@ -55,14 +55,13 @@ library(tidytext) # includes set of functions useful for manipulating text
 library(ggthemes) # includes a set of themes to make your visualizations look nice!
 library(readr) # more informative and easy way to import data
 library(babynames) #for gender predictions
-library(topicmodels) # if you want to try your hand at topic modelling!
 ```
 
 For this tutorial, we will be using data that I have pre-cleaned and provided in .csv format. The data come from the Edinburgh Book Festival API, and provide data for every event that has taken place at the Edinburgh Book Festival, which runs every year in the month of August, for nine years: 2012-2020. There are many questions we might ask of these data. In this tutorial, we will investigate the contents of each event, and the speakers at each event, to determine if there are any trends in gender representation over time.
 
-The first task, then, is to read in these data. We can do this with the `read.csv()` function, which is a base R fuction -- i.e., you do need to load and packages to do this.
+The first task, then, is to read in these data. We can do this with the `read_csv()` function.
 
-The `read.csv()` function takes the .csv file and loads it into the working environment as a data frame object called "edbfdata." We can call this object anything though. Try changing the name of the object before the <- arrow. Note that R does not allow names with spaces in, however. It is also not a good idea to name the object something beginning with numbers, as this means you have to call the object within ` marks.
+The `read_csv()` function takes the .csv file and loads it into the working environment as a data frame object called "edbfdata." We can call this object anything though. Try changing the name of the object before the <- arrow. Note that R does not allow names with spaces in, however. It is also not a good idea to name the object something beginning with numbers, as this means you have to call the object within ` marks.
 
 
 ```r
@@ -91,6 +90,14 @@ edbfdata <- read_csv("data/edbookfestall.csv")
 ##   ID = col_character()
 ## )
 ```
+
+If you're working on this document from your own computer ("locally") you can download the Edinburgh Fringe data in the following way:
+
+
+```r
+edbfdata <- read_csv("https://raw.githubusercontent.com/cjbarrie/RDL-Ed/main/02-text-as-data/data/edbookfestall.csv")
+```
+
 
 ## Inspect and filter data 
 
@@ -176,7 +183,7 @@ ggplot(evtsperyr) +
   scale_y_continuous(expand = c(0, 0), limits = c(0, NA))
 ```
 
-![](02-week6_files/figure-html/unnamed-chunk-8-1.png)<!-- -->
+![](02-week6_files/figure-html/unnamed-chunk-9-1.png)<!-- -->
 
 Perhaps unsurprisingly, in the context of the pandemic, the number of recorded bookings for the 2020 Festival is drastically reduced. 
 
@@ -406,7 +413,7 @@ ggplot(edbf_counts, aes(year, sum_wom / year_total, group=1)) +
   theme_tufte(base_family = "Helvetica") 
 ```
 
-![](02-week6_files/figure-html/unnamed-chunk-21-1.png)<!-- -->
+![](02-week6_files/figure-html/unnamed-chunk-22-1.png)<!-- -->
 
 In the above, we are looking at the proportions of gender-related words over time as a proportion of total words in each year. @Nelson2020 recommends looking into differences in proportions between years or between documents. This is also straightforward to compute. We can understand each year as an individual "document" containing a "bag of words." To compute the differences in proportions year on year, we need calculate the difference by subtracting the proportion of year y from year y+1. 
 
@@ -426,7 +433,7 @@ ggplot(edbf_diffs, aes(year, diffprop, group=1)) +
   theme_tufte(base_family = "Helvetica")
 ```
 
-![](02-week6_files/figure-html/unnamed-chunk-22-1.png)<!-- -->
+![](02-week6_files/figure-html/unnamed-chunk-23-1.png)<!-- -->
 
 What do we see from this graph? Arguably this is harder to intepret, even if it does better visualize the year-on-year changes. Because we are looking at year-on-year changes, though, it means the overall trend is harder to determine. We will return to the approach we used in the second-to-last graph; that is, plotting the overall proportion of gender-related words for each year. 
 
@@ -444,7 +451,7 @@ ggplot(edbf_counts, aes(year, sum_wom / year_total, group=1)) +
   theme_tufte(base_family = "Helvetica")
 ```
 
-![](02-week6_files/figure-html/unnamed-chunk-23-1.png)<!-- -->
+![](02-week6_files/figure-html/unnamed-chunk-24-1.png)<!-- -->
 
 And we could label why we are highlighting the year of 2017 by including a text label along the vertical line. 
 
@@ -462,7 +469,7 @@ ggplot(edbf_counts, aes(year, sum_wom / year_total, group=1)) +
   theme_tufte(base_family = "Helvetica")
 ```
 
-![](02-week6_files/figure-html/unnamed-chunk-24-1.png)<!-- -->
+![](02-week6_files/figure-html/unnamed-chunk-25-1.png)<!-- -->
 
 ## Gender prediction
 
@@ -598,7 +605,7 @@ ggplot(ednameprops, aes(x=year, fill = factor(sex))) +
   geom_abline(slope=0, intercept=0.5,  col = "black",lty=2)
 ```
 
-![](02-week6_files/figure-html/unnamed-chunk-30-1.png)<!-- -->
+![](02-week6_files/figure-html/unnamed-chunk-31-1.png)<!-- -->
 
 What can we conclude form this graph?
 
