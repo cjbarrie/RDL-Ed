@@ -41,8 +41,6 @@ To practice these skills, we will use a series of webpages on the Internet Archi
 knitr::include_url("https://www.tahrirdocuments.org/", height = "400px")
 ```
 
-This might sound complicated but it isn't really. In essence, APIs simply provide data in a more usable format without the need for alternative techniques such as web scraping. Be warned, too, that some websites do not permit automated web scraping, meaning the use of an API is essential.
-
 ##  Load data and packages 
 
 Beforce proceeding, we'll load the remaining packages we will need for this tutorial.
@@ -61,7 +59,7 @@ We can download the final dataset we will produce with:
 pamphdata <- read_csv("data/pamphlets_formatted_gsheets.csv")
 ```
 
-If you're working on this document from your own computer ("locally") you can download the Edinburgh Fringe data in the following way:
+If you're working on this document from your own computer ("locally") you can download the Tahrir documents data in the following way:
 
 ```{r, eval = F}
 pamphdata <- read_csv("https://raw.githubusercontent.com/cjbarrie/RDL-Ed/main/03-screenscrape-apis/data/pamphlets_formatted_gsheets.csv")
@@ -82,16 +80,53 @@ And then:
 glimpse(pamphdata)
 ```
 
-## Scraping webpage content
+## Inspecting HTML contents
 
 We are going to return to the Internet Archived webpages to see how we can produce this final formatted dataset. The archived Tahrir Documents webpages can be accessed [here](https://wayback.archive-it.org/2358/20120130143023/http://www.tahrirdocuments.org/).
 
-We first need to inspect the URL structures of the documents we want to capture. When we scroll down the page we see listed a number of documents. Each of these directs to an individual pamphlet distributed at protests during the 2011 Egyptian Revolution. 
+We first want to expect how the contents of each webage is stored.
 
-When we scroll to the very bottom of the page, we see listed a number of hyperlinks to documents stored by month.
-
+When we scroll to the very bottom of the page, we see listed a number of hyperlinks to documents stored by month:
 
 ![alt text here](images/tahrir_archives.png)
+
+We will click through the documents stored for March and then click on the top listed pamphlet entitled "The Season of Anger Sets in Among the Arab Peoples." You can access this [here](https://wayback.archive-it.org/2358/20120130161341/http://www.tahrirdocuments.org/2011/03/voice-of-the-revolution-3-page-2/).
+
+We will store this url to inspect the HTML it contains as follows:
+
+```{r}
+url <- "https://wayback.archive-it.org/2358/20120130161341/http://www.tahrirdocuments.org/2011/03/voice-of-the-revolution-3-page-2/"
+
+html <- read_html(url)
+```
+
+Well, this isn't particularly useful. Let's now see how we can extract the text contained inside.
+
+```{r}
+pagetext <- html %>%
+  html_text()
+
+pagetext
+```
+
+Well this looks pretty terrifying too...
+
+What can we do to bring this down to size? We know that the main text of the translated document is contained between "<p>" HTML tags. To identify the text between these HTML tags we can run:
+
+```{r}
+pagetext <- html %>%
+  html_nodes("p") %>%
+  html_text(trim=TRUE)
+
+pagetext
+  
+```
+
+, which looks quite a lot more manageable...! 
+
+## Inspecting URL structures
+
+We first need to inspect the URL structures of the documents we want to capture. When we scroll down the page we see listed a number of documents. Each of these directs to an individual pamphlet distributed at protests during the 2011 Egyptian Revolution. 
 
 Click on one of these and see how the URL changes.
 
@@ -132,7 +167,9 @@ cat(augusturl)
 cat(jan2012url)
 ```
 
-We notice that for each month, the URL changes with the addition of month and year between back slashes at the end or the URL. 
+We notice that for each month, the URL changes with the addition of month and year between back slashes at the end or the URL. In the next section, we will go through how to efficiently create a set of URLs to loop through and retrieve the information contained in each individual webpage.
+
+## Looping through URLs
 
 We are going to want to retrieve the text of documents archived for each month. As such, our first task is to store each of these webpages as a series of strings. We could do this manually by, for example, pasting year and month strings to the end of each URL for each month from March, 2011 to January, 2012:
 
