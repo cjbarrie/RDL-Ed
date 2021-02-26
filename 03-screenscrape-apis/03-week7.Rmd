@@ -36,9 +36,7 @@ In this tutorial, you will learn how to summarise, aggregate, and analyze text i
 
 To practice these skills, we will use a series of webpages on the Internet Archive that host material collected at the Arab Spring protests in Egypt in 2011. The original website can be seen [here](https://www.tahrirdocuments.org/) and below.
 
-```{r, echo=F}
-knitr::include_url("https://www.tahrirdocuments.org/", height = "400px")
-```
+![alt text here](images/tahrir_page.png){width=100%}
 
 ##  Load data and packages 
 
@@ -275,7 +273,7 @@ We can see pretty clearly that as we navigate through each page, there appears a
 
 Fortunately, we don't have to. Using the "Selector Gadget" tool again we can automate this process by grabbing the highest number that appears in the pagination bar for each month's pages. The loop below achieves this:
 
-```{r}
+```{r, eval=F}
 #CREATE SET OF STARTING URLS WITH PAGE NUMBER EXTENSIONS
 urlpages_all <- character(0)
 urlpages <- character(0)
@@ -295,6 +293,10 @@ for (i in seq_along(urls)) {
   urlpages <- character(0)
   urlpages_all <- gsub("page/1/", "", urlpages_all) #get rid of page/1/
 }
+```
+
+```{r, echo=F}
+urlpages_all <- readRDS("data/urlpages_all.RDS")
 ```
 
 What's going on here? Well, in the first two lines, we are simply creating an empty character string that we're going to populate in the subsequent loop. Remember that we have a list of eleven starting URLs for each of months archived on this webpage. So in the code beginning `for (i in seq_along(files)` we saying, similar to above, for the beginning url to the end url, do the following in a loop: first, read in the url with `url <- urls[i]` then read the html it contains with   `html <- read_html(url)`.
@@ -319,7 +321,7 @@ We can again pass these tags through `html_nodes()` to grab what's contained ins
 The complete loop, then, to retrieve the URL of the page for every pamplete contained on this website is:
 
 
-```{r}
+```{r, eval =F}
 #GET URLS FOR EACH PAMPHLET
 
 pamlinks_all <- character(0)
@@ -334,6 +336,10 @@ for (i in seq_along(urlpages_all)) {
   pamlinks_all <- c(pamlinks_all, links)
 }
 
+```
+
+```{r, echo=F}
+pamlinks_all <- readRDS("data/pamlinks_all.RDS")
 ```
 
 Which gives us:

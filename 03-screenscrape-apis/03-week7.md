@@ -36,7 +36,7 @@ In this tutorial, you will learn how to summarise, aggregate, and analyze text i
 
 To practice these skills, we will use a series of webpages on the Internet Archive that host material collected at the Arab Spring protests in Egypt in 2011. The original website can be seen [here](https://www.tahrirdocuments.org/) and below.
 
-<iframe src="https://www.tahrirdocuments.org/" width="100%" height="400px"></iframe>
+![alt text here](images/tahrir_page.png){width=100%}
 
 ##  Load data and packages 
 
@@ -370,6 +370,8 @@ for (i in seq_along(urls)) {
 }
 ```
 
+
+
 What's going on here? Well, in the first two lines, we are simply creating an empty character string that we're going to populate in the subsequent loop. Remember that we have a list of eleven starting URLs for each of months archived on this webpage. So in the code beginning `for (i in seq_along(files)` we saying, similar to above, for the beginning url to the end url, do the following in a loop: first, read in the url with `url <- urls[i]` then read the html it contains with   `html <- read_html(url)`.
 
 After this line, we are getting the pages a character string of page numbers by calling the `html_nodes()` function on the ".page" tag. this gives a series of pages stored as e.g. "1" "2" "3". In order to be able to see how many there are, we need to extract the highest number that appears in this string. To do this, we first need to reformat it as an "integer" object rather than a "character" object so that R can recognize that these are number. So we call `  pageints <- as.integer(pages)`. Then we get the maximum by simply calling: `  npages <- max(pageints, na.rm = T)`. 
@@ -418,6 +420,8 @@ for (i in seq_along(urlpages_all)) {
   pamlinks_all <- c(pamlinks_all, links)
 }
 ```
+
+
 
 Which gives us:
 
