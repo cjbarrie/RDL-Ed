@@ -1,0 +1,71 @@
+---
+title: "Researching Digital Life"
+subtitle: "Lecture 7: Screen-scraping and APIs"
+author:
+  name: Christopher Barrie
+  affiliation: University of Edinburgh | [RDL](https://github.com/cjbarrie/RDL-Ed)
+# date: Lecture 6  #"`r format(Sys.time(), '%d %B %Y')`"
+output: 
+  html_document:
+    theme: flatly
+    highlight: haddock
+    # code_folding: show
+    toc: yes
+    toc_depth: 4
+    toc_float: yes
+    keep_md: true
+    
+bibliography: RDL.bib    
+---
+
+
+# Week 7: Screen-scraping and APIs
+
+This week you had readings by @Freelon2018a, @Bruns2019, @Puschmann2019, and @Lazer2020b as well as a [report](https://www.disinfobservatory.org/download/26541) by SOMA outlining solutions for research data exchange. 
+
+The hands-on exercise for this week uses different sources of online data, and here I introduce you to how we might gather data through both screen-scraping (or server-side) techniques as well as API (or client-side) techniques.
+
+## Week 7 Exercise 2
+
+In this tutorial, you will learn how to:
+
+* Get developer access credentials to Twitter
+* Use the <tt>rtweet</tt> package to query the Twitter API
+
+## Setup 
+
+To practice these skills, we will use a series of webpages on the Internet Archive that host material collected at the Arab Spring protests in Egypt in 2011. The original website can be seen [here](https://www.tahrirdocuments.org/) and below.
+
+```{r, echo=F}
+knitr::include_url("https://developer.twitter.com/en", height = "400px")
+```
+
+##  Load data and packages 
+
+Before proceeding, we'll load the remaining packages we will need for this tutorial.
+
+```{r, message=F}
+library(tidyverse) # loads dplyr, ggplot2, and others
+library(rtweet) # to query the Twitter API in R
+```
+
+```{r}
+api_key <-" XXXXXXXXXXXXXXXXXXXXXXX"
+api_key_secret <- "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+access_token <- "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+access_token_secret <- "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+
+token <- create_token(
+  app = "NAME YOUR APP",
+  consumer_key = api_key,
+  consumer_secret = api_key_secret,
+  access_token = access_token,
+  access_secret = access_token_secret
+)
+
+
+user <- "@cbarrie"
+barrietweets <- search_tweets(user, n = 50)
+
+
+```
