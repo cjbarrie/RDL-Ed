@@ -36,7 +36,7 @@ In this tutorial, you will learn how to summarise, aggregate, and analyze text i
 
 To practice these skills, we will use a series of webpages on the Internet Archive that host material collected at the Arab Spring protests in Egypt in 2011. The original website can be seen [here](https://www.tahrirdocuments.org/) and below.
 
-![alt text here](images/tahrir_page.png){width=100%}
+![](images/tahrir_page.png){width=100%}
 
 ##  Load data and packages 
 
@@ -111,7 +111,7 @@ We first want to expect how the contents of each webage is stored.
 
 When we scroll to the very bottom of the page, we see listed a number of hyperlinks to documents stored by month:
 
-![alt text here](images/tahrir_archives.png)
+![](images/tahrir_archives.png)
 
 We will click through the documents stored for March and then click on the top listed pamphlet entitled "The Season of Anger Sets in Among the Arab Peoples." You can access this [here](https://wayback.archive-it.org/2358/20120130161341/http://www.tahrirdocuments.org/2011/03/voice-of-the-revolution-3-page-2/).
 
