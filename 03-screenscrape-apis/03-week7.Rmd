@@ -122,7 +122,9 @@ pagetext
   
 ```
 
-, which looks quite a lot more manageable...! 
+, which looks quite a lot more manageable...!
+
+So this gives us one way of capturing the text, but what about if we wanted to get other elements of the document, for example the date or the tags attributed to each document?
 
 ## Inspecting URL structures
 
