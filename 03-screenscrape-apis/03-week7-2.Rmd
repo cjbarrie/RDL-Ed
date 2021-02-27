@@ -34,7 +34,7 @@ In this tutorial, you will learn how to:
 
 ## Setup 
 
-To practice these skills, we will use a series of webpages on the Internet Archive that host material collected at the Arab Spring protests in Egypt in 2011. The original website can be seen [here](https://www.tahrirdocuments.org/) and below.
+To practice these skills, you might want to create a new account for your academic research. But you needn't create a new account to follow the steps below. You can simply use your own account---if you have one---as using the developer tools will not change anything about your public Twitter account. 
 
 ![](images/twitterdev.png){width=100%}
 
@@ -47,7 +47,33 @@ library(tidyverse) # loads dplyr, ggplot2, and others
 library(rtweet) # to query the Twitter API in R
 ```
 
-```{r}
+Once you've create your new account, or have logged into your existing one, go to the Twitter developer portal log in page [here](https://developer.twitter.com/en).
+
+Click on Apply in the navigation bar on the top right of the page. You'll be asked "what best describes you?" For the purposes of this tutorial, select academic, and then select student. Fill in all the relevant information and submit your application. Your application will then be reviewed by Twitter before access is granted. This might take hours or days.
+
+Once you have authorization, a new tab will appear in the navigation bar at the top of the develop portal, as below:
+
+![](images/twitterdev2.png){width=100%}
+
+Navigate to the developer portal and you will there be able to create a new "app" to query the API. You see in my account that I have several apps for different purposes.
+
+![](images/twitterdev3.png){width=100%}
+We can create a new app on this Overview page too. When we click "Create App" we will first be asked to name the app. Most importantly, we will then be given an "API key"; an "API secret key"; and a "Bearer token" as below.
+
+![](images/twitterdev4.png){width=50%}
+You MUST make a record of these. Once you have done so, you can then use these to access the API. Once you have recorded these, navigate to the App setting tabs for the App you've created now listed in the Overview tab on the left hand side navigation window.
+
+![](images/twitterdev5.png){width=50%}
+
+Navigate to "Keys and tokens" on this page, and click generate in the Access token & secret box as below:
+
+![](images/twitterdev6.png){width=50%}
+
+Record these as well. Once you have all of these keys and tokens recorded somewhere safe, you are ready to collect data!
+
+This is pretty simple using the <tt>rtweet</tt> package. Below, we'll collect the last 50 tweets of the founder of Twitter: Jack Dorsey. 
+
+```{r, eval=FALSE}
 api_key <-" XXXXXXXXXXXXXXXXXXXXXXX"
 api_key_secret <- "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 access_token <- "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
@@ -61,9 +87,23 @@ token <- create_token(
   access_secret = access_token_secret
 )
 
+user <- "@jack"
+jacktweets <- get_timeline(user, n = 50)
 
-user <- "@cbarrie"
-barrietweets <- search_tweets(user, n = 50)
-
+head(jacktweets)
 
 ```
+
+```{r, echo=F, warning=-F, message=F}
+
+library(kableExtra)
+
+jacktweets <- readRDS("data/jacktweets.rds")
+
+jacktweets %>%
+  select(created_at, screen_name, text) %>%
+  kbl() %>%
+  kable_styling()
+```
+
+Now you can play around with the different API calls possible with the <tt>rtweet</tt> package. See the full documentation [here](https://cran.r-project.org/web/packages/rtweet/rtweet.pdf) and [here](https://github.com/ropensci/rtweet). 
