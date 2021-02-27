@@ -100,10 +100,11 @@ library(kableExtra)
 
 jacktweets <- readRDS("data/jacktweets.rds")
 
-jacktweets %>%
-  select(created_at, screen_name, text) %>%
-  kbl() %>%
-  kable_styling()
+jacktweets <- jacktweets %>%
+  select(created_at, screen_name, text)
+
+kbl(jacktweets[1:10,]) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"))
 ```
 
 Now you can play around with the different API calls possible with the <tt>rtweet</tt> package. See the full documentation [here](https://cran.r-project.org/web/packages/rtweet/rtweet.pdf) and [here](https://github.com/ropensci/rtweet). 
