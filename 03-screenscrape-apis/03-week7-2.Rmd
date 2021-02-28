@@ -60,7 +60,7 @@ Navigate to the developer portal and you will there be able to create a new "app
 ![](images/twitterdev3.png){width=100%}
 We can create a new app on this Overview page too. When we click "Create App" we will first be asked to name the app. Most importantly, we will then be given an "API key"; an "API secret key"; and a "Bearer token" as below.
 
-![](images/twitterdev4.png){width=100%}
+![](images/twitterdev4.png){width=30%}
 
 You **MUST** make a record of these. Once you have done so, you can then use these to access the API. Once you have recorded these, navigate to the App setting tabs for the App you've created now listed in the Overview tab on the left hand side navigation window.
 
