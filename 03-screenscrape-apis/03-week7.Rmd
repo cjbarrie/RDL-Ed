@@ -90,6 +90,8 @@ We will store this url to inspect the HTML it contains as follows:
 url <- "https://wayback.archive-it.org/2358/20120130161341/http://www.tahrirdocuments.org/2011/03/voice-of-the-revolution-3-page-2/"
 
 html <- read_html(url)
+
+html
 ```
 
 Well, this isn't particularly useful. Let's now see how we can extract the text contained inside.
