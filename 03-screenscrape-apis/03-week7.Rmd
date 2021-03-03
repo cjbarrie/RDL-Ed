@@ -56,6 +56,8 @@ We can download the final dataset we will produce with:
 pamphdata <- read_csv("data/pamphlets_formatted_gsheets.csv")
 ```
 
+You can also view the formatted output of this scraping exercise, alongside images of the documents in question, in Google Sheets [here](https://docs.google.com/spreadsheets/d/1rg2VTV6uuknpu6u-L5n7kvQ2cQ6e6Js7IHp7CaSKe90/edit?usp=sharing).
+
 If you're working on this document from your own computer ("locally") you can download the Tahrir documents data in the following way:
 
 ```{r, eval = F}
