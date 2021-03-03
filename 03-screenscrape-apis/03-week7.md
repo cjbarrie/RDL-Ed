@@ -4,7 +4,7 @@ subtitle: "Lecture 7: Screen-scraping and APIs"
 author:
   name: Christopher Barrie
   affiliation: University of Edinburgh | [RDL](https://github.com/cjbarrie/RDL-Ed)
-# date: Lecture 6  #"26 February 2021"
+# date: Lecture 6  #"03 March 2021"
 output: 
   html_document:
     theme: flatly
@@ -73,6 +73,8 @@ pamphdata <- read_csv("data/pamphlets_formatted_gsheets.csv")
 ## )
 ```
 
+You can also view the formatted output of this scraping exercise, alongside images of the documents in question, in Google Sheets [here](https://docs.google.com/spreadsheets/d/1rg2VTV6uuknpu6u-L5n7kvQ2cQ6e6Js7IHp7CaSKe90/edit?usp=sharing).
+
 If you're working on this document from your own computer ("locally") you can download the Tahrir documents data in the following way:
 
 
@@ -122,6 +124,15 @@ We will store this url to inspect the HTML it contains as follows:
 url <- "https://wayback.archive-it.org/2358/20120130161341/http://www.tahrirdocuments.org/2011/03/voice-of-the-revolution-3-page-2/"
 
 html <- read_html(url)
+
+html
+```
+
+```
+## {html_document}
+## <html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+## [1] <head profile="http://gmpg.org/xfn/11">\n<!-- Start Wayback Rewrite JS In ...
+## [2] <body>\n\n<!--\n     FILE ARCHIVED ON 16:13:41 Jan 30, 2012 AND RETRIEVED ...
 ```
 
 Well, this isn't particularly useful. Let's now see how we can extract the text contained inside.
