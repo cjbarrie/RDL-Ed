@@ -4,7 +4,7 @@ subtitle: "Lecture 7: Screen-scraping and APIs"
 author:
   name: Christopher Barrie
   affiliation: University of Edinburgh | [RDL](https://github.com/cjbarrie/RDL-Ed)
-# date: Lecture 6  #"03 March 2021"
+# date: Lecture 6  #"05 March 2021"
 output: 
   html_document:
     theme: flatly
@@ -158,7 +158,7 @@ We can do this with our Tahrir documents as below:
 ![](images/gifcap4.gif){width=100%}
 
 
-So now we know that the main text of the translated document is contained between "<p>" HTML tags. To identify the text between these HTML tags we can run:
+So now we know that the main text of the translated document is contained between "p" HTML tags. To identify the text between these HTML tags we can run:
 
 
 ```r
@@ -298,16 +298,11 @@ What's going on here? Well, we are first specifying the starting URL as above. W
 
 
 ```r
-i
-```
+i <- 3
 
-```
-## [1] 13
-```
-
-```r
 url <- "https://wayback.archive-it.org/2358/20120130143023/http://www.tahrirdocuments.org/"
-newurl <- paste0(url,"2011/0",3,"/")
+
+newurl <- paste0(url,"2011/0",i,"/")
 ```
 
 Which gives:
