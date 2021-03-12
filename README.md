@@ -2,7 +2,7 @@
 
 ![Alt Text](coursebanner.png)
 
-This repo contains teaching materials for a four lecture series in Researching Digital Life core course, University of Edinburgh. 
+This repo contains teaching materials for a short lecture series in Researching Digital Life core course, University of Edinburgh. 
 
 You can use this in several ways:
 
@@ -21,3 +21,4 @@ You will also find in the Introduction documents an overview of how you install 
 - Week 6 Exercise: Text as data \[[Link](https://raw.githack.com/cjbarrie/RDL-Ed/main/02-text-as-data/02-week6.html)\]
 - Week 7 Exercise 1: Screen scraping \[[Link](https://raw.githack.com/cjbarrie/RDL-Ed/main/03-screenscrape-apis/03-week7.html)\]
 - Week 7 Exercise 2: APIs \[[Link](https://raw.githack.com/cjbarrie/RDL-Ed/main/03-screenscrape-apis/03-week7-2.html)\]
+- Week 9 Exercise: Twitter for protest research \[[Link](https://raw.githack.com/cjbarrie/RDL-Ed/main/04-protest-digital/04-week9.html)\]
