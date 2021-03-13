@@ -4,7 +4,7 @@ subtitle: "Lecture 7: Screen-scraping and APIs"
 author:
   name: Christopher Barrie
   affiliation: University of Edinburgh | [RDL](https://github.com/cjbarrie/RDL-Ed)
-# date: Lecture 6  #"12 March 2021"
+# date: Lecture 6  #"13 March 2021"
 output: 
   html_document:
     theme: flatly
@@ -163,10 +163,43 @@ Once you have entered your keys, tokens, and key/token secrets, store them with 
 </tbody>
 </table>
 
-
 As the documentation of the <tt>rtweet</tt> package notes: "To return more than 18,000 tweets in a single call, users must set `retryonratelimit` argument to true... As a result, it is possible to search for 50,000, 100,000, or even 10,000,000 tweets, but these searches can take hours or even days."
 
-Now you can play around with the different API calls possible with the <tt>rtweet</tt> package. See the full documentation [here](https://cran.r-project.org/web/packages/rtweet/rtweet.pdf) and [here](https://github.com/ropensci/rtweet).
+Here, we have set include retweets to FALSE meaning that all of our tweets are original tweets rather than retweets. It seems that we have some bot accounts in our data. Let's see if we can predict how many of these accounts are bots. First we need to install a package called <tt>tweetbotornot2</tt>
+
+
+```r
+## install {remotes} if not already
+if (!"remotes" %in% installed.packages()) {
+  install.packages("remotes")
+}
+
+library(remotes)
+remotes::install_github("mkearney/tweetbotornot2")
+```
+
+Once we've loaded this package we can use the function `predict_bot()` to estimate what proportion of these accounts are bot accounts.
+
+
+```r
+library(tweetbotornot2)
+botp <- predict_bot(BLMtweets)
+
+ggplot(botp) +
+  geom_histogram(aes(prob_bot)) +
+  labs(x= "Probability a bot", y= "Count")
+```
+
+
+```
+## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+```
+
+![](04-week9_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
+
+From the histogram it seems that the proportion of overall tweets from bots (i.e., counts of accounts with high probability) is low. You can read more about this function [here](https://github.com/mkearney/tweetbotornot2), which also contains information on how bot identities are predicted, as well as how much we can trust these predictions.
+
+You can also play around with the different API calls possible with the <tt>rtweet</tt> package. See the full documentation [here](https://cran.r-project.org/web/packages/rtweet/rtweet.pdf) and [here](https://github.com/ropensci/rtweet).
 
 And for those interested, you can access a development version of a package to collect tweets from the Academic Research Product Track API [here](https://github.com/cjbarrie/academictwitteR). I am working on this with a colleague. It is working at the moment but needs some refinement.
 
