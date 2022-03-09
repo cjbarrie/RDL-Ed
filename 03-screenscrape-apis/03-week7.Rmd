@@ -1,6 +1,6 @@
 ---
 title: "Researching Digital Life"
-subtitle: "Lecture 7: Screen-scraping and APIs"
+subtitle: "Lecture: Screen-scraping and APIs"
 author:
   name: Christopher Barrie
   affiliation: University of Edinburgh | [RDL](https://github.com/cjbarrie/RDL-Ed)
@@ -19,13 +19,11 @@ bibliography: RDL.bib
 ---
 
 
-# Week 7: Screen-scraping and APIs
+# Screen-scraping and APIs
 
 This week you had readings by @Freelon2018a, @Bruns2019, @Puschmann2019, and @Lazer2020b as well as a [report](https://www.disinfobservatory.org/download/26541) by SOMA outlining solutions for research data exchange. 
 
 The hands-on exercise for this week uses different sources of online data, and here I introduce you to how we might gather data through both screen-scraping (or server-side) techniques as well as API (or client-side) techniques.
-
-## Week 7 Exercise 
 
 In this tutorial, you will learn how to summarise, aggregate, and analyze text in R:
 

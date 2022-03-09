@@ -1,6 +1,6 @@
 ---
 title: "Researching Digital Life"
-subtitle: "Lecture 7: Text as data"
+subtitle: "Lecture: Text as data"
 author:
   name: Christopher Barrie
   affiliation: University of Edinburgh | [RDL](https://github.com/cjbarrie/RDL-Ed)
@@ -19,13 +19,11 @@ bibliography: RDL.bib
 ---
 
 
-# Week 6: Text as data
+# Text as data
 
 This week you'll be discussing in the tutorials four articles by @Karamshuk2017, @Flores2017, @Nelson2020, and @Kozlowski2019. 
 
 The hands-on exercise for this week uses a different source of data, and here I introduce you to how we might gather, clean, and analyze text data. In so doing, I also refer to the article by @Nelson2020, and the steps she proposes for a "grounded" approach to the analysis of text data. The argument @Nelson2020 makes is that we can use computational techniques for the discovery of topics within text, and then employ more interpretative techniques to analyze meaning in the text itself. This is a way, @Nelson2020 argues, to overcome the problems of reproducibility inherent to both "humanist" and "structural" approaches to content analysis. Here, we will be mainly focusing on what @Nelson2020 refers to as "lexical-based techniques," though we will also have the chance to perform a simple classification task. 
-
-## Week 6 Exercise 
 
 In this tutorial, you will learn how to summarise, aggregate, and analyze text in R:
 
@@ -221,7 +219,6 @@ Are the keywords we used precise enough? If not, what would you change?
 ```{r}
 #get counts by year and word
 edbf_counts <- edbf_term_counts %>%
-  complete(year, word, fill = list(n = 0)) %>%
   group_by(year) %>%
   mutate(year_total = sum(n)) %>%
   filter(womword==1) %>%

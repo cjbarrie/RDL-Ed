@@ -1,10 +1,10 @@
 ---
 title: "Researching Digital Life"
-subtitle: "Lecture 7: Text as data"
+subtitle: "Lecture: Text as data"
 author:
   name: Christopher Barrie
   affiliation: University of Edinburgh | [RDL](https://github.com/cjbarrie/RDL-Ed)
-# date: Lecture 6  #"24 February 2021"
+# date: Lecture 6  #"09 March 2022"
 output: 
   html_document:
     theme: flatly
@@ -19,13 +19,11 @@ bibliography: RDL.bib
 ---
 
 
-# Week 6: Text as data
+# Text as data
 
 This week you'll be discussing in the tutorials four articles by @Karamshuk2017, @Flores2017, @Nelson2020, and @Kozlowski2019. 
 
 The hands-on exercise for this week uses a different source of data, and here I introduce you to how we might gather, clean, and analyze text data. In so doing, I also refer to the article by @Nelson2020, and the steps she proposes for a "grounded" approach to the analysis of text data. The argument @Nelson2020 makes is that we can use computational techniques for the discovery of topics within text, and then employ more interpretative techniques to analyze meaning in the text itself. This is a way, @Nelson2020 argues, to overcome the problems of reproducibility inherent to both "humanist" and "structural" approaches to content analysis. Here, we will be mainly focusing on what @Nelson2020 refers to as "lexical-based techniques," though we will also have the chance to perform a simple classification task. 
-
-## Week 6 Exercise 
 
 In this tutorial, you will learn how to summarise, aggregate, and analyze text in R:
 
@@ -40,7 +38,7 @@ In this tutorial, you will learn how to summarise, aggregate, and analyze text i
 
 To practice these skills, we will use a dataset that has already been collected from the Edinburgh Fringe Festival website. You can try this out yourself too: to obtain these data, you must first obtain an API key. Instructions on how to do this are available at the [Edinburgh Fringe API page](https://api.edinburghfestivalcity.com/documentation/fringe_approval):
 
-<iframe src="https://api.edinburghfestivalcity.com/documentation/fringe_approval" width="100%" height="400px"></iframe>
+<iframe src="https://api.edinburghfestivalcity.com/documentation/fringe_approval" width="100%" height="400px" data-external="1"></iframe>
 
 This might sound complicated but it isn't really. In essence, APIs simply provide data in a more usable format without the need for alternative techniques such as web scraping. Be warned, too, that some websites do not permit automated web scraping, meaning the use of an API is essential.
 
@@ -69,26 +67,19 @@ edbfdata <- read_csv("data/edbookfestall.csv")
 ```
 
 ```
-## Warning: Missing column names filled in: 'X1' [1]
+## New names:
+## * `` -> ...1
 ```
 
 ```
-## 
+## Rows: 5938 Columns: 12
 ## ── Column specification ────────────────────────────────────────────────────────
-## cols(
-##   X1 = col_double(),
-##   festival_id = col_character(),
-##   title = col_character(),
-##   sub_title = col_character(),
-##   artist = col_character(),
-##   year = col_double(),
-##   description = col_character(),
-##   genre = col_character(),
-##   latitude = col_double(),
-##   longitude = col_double(),
-##   age_category = col_character(),
-##   ID = col_character()
-## )
+## Delimiter: ","
+## chr (8): festival_id, title, sub_title, artist, description, genre, age_cate...
+## dbl (4): ...1, year, latitude, longitude
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 ```
 
 If you're working on this document from your own computer ("locally") you can download the Edinburgh Fringe data in the following way:
@@ -109,7 +100,7 @@ colnames(edbfdata)
 ```
 
 ```
-##  [1] "X1"           "festival_id"  "title"        "sub_title"    "artist"      
+##  [1] "...1"         "festival_id"  "title"        "sub_title"    "artist"      
 ##  [6] "year"         "description"  "genre"        "latitude"     "longitude"   
 ## [11] "age_category" "ID"
 ```
@@ -124,18 +115,18 @@ glimpse(edbfdata)
 ```
 ## Rows: 5,938
 ## Columns: 12
-## $ X1           <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 1…
-## $ festival_id  <chr> "book", "book", "book", "book", "book", "book", "book", …
-## $ title        <chr> "Denise Mina", "Alex T Smith", "Challenging Expectations…
-## $ sub_title    <chr> "HARD MEN AND CARDBOARD GANGSTERS", NA, NA, "WHAT CAUSED…
-## $ artist       <chr> "Denise Mina", "Alex T Smith", "Peter Cocks", "Paul Maso…
-## $ year         <dbl> 2012, 2012, 2012, 2012, 2012, 2012, 2012, 2012, 2012, 20…
-## $ description  <chr> "<p>\n\tAs the grande dame of Scottish crime fiction, De…
-## $ genre        <chr> "Literature", "Children", "Children", "Literature", "Chi…
-## $ latitude     <dbl> 55.9519, 55.9519, 55.9519, 55.9519, 55.9519, 55.9519, 55…
-## $ longitude    <dbl> -3.206913, -3.206913, -3.206913, -3.206913, -3.206913, -…
-## $ age_category <chr> NA, "AGE 4 - 7", "AGE 11 - 14", NA, "AGE 10 - 14", "AGE …
-## $ ID           <chr> "Denise Mina2012", "Alex T Smith2012", "Peter Cocks2012"…
+## $ ...1         <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17…
+## $ festival_id  <chr> "book", "book", "book", "book", "book", "book", "book", "…
+## $ title        <chr> "Denise Mina", "Alex T Smith", "Challenging Expectations …
+## $ sub_title    <chr> "HARD MEN AND CARDBOARD GANGSTERS", NA, NA, "WHAT CAUSED …
+## $ artist       <chr> "Denise Mina", "Alex T Smith", "Peter Cocks", "Paul Mason…
+## $ year         <dbl> 2012, 2012, 2012, 2012, 2012, 2012, 2012, 2012, 2012, 201…
+## $ description  <chr> "<p>\n\tAs the grande dame of Scottish crime fiction, Den…
+## $ genre        <chr> "Literature", "Children", "Children", "Literature", "Chil…
+## $ latitude     <dbl> 55.9519, 55.9519, 55.9519, 55.9519, 55.9519, 55.9519, 55.…
+## $ longitude    <dbl> -3.206913, -3.206913, -3.206913, -3.206913, -3.206913, -3…
+## $ age_category <chr> NA, "AGE 4 - 7", "AGE 11 - 14", NA, "AGE 10 - 14", "AGE 6…
+## $ ID           <chr> "Denise Mina2012", "Alex T Smith2012", "Peter Cocks2012",…
 ```
 
 We can see that the description of each event is included in a column named "description" and the year of that event as "year." So for now we'll just keep these two. Remember: we're interested in this tutorial firstly in the representation of gender and feminism in forms of cultural production given a platform at the Edinburgh International Book Festival. Given this, we are first and foremost interested in the reported content of each artist's event.
@@ -152,7 +143,7 @@ head(evdes)
 ```
 
 ```
-## # A tibble: 6 x 2
+## # A tibble: 6 × 2
 ##   description                                                               year
 ##   <chr>                                                                    <dbl>
 ## 1 "<p>\n\tAs the grande dame of Scottish crime fiction, Denise Mina place…  2012
@@ -222,7 +213,7 @@ stop_words
 ```
 
 ```
-## # A tibble: 1,149 x 2
+## # A tibble: 1,149 × 2
 ##    word        lexicon
 ##    <chr>       <chr>  
 ##  1 a           SMART  
@@ -249,7 +240,7 @@ tidy_des %>%
 ```
 
 ```
-## # A tibble: 24,995 x 2
+## # A tibble: 24,995 × 2
 ##    word       n
 ##    <chr>  <int>
 ##  1 rsquo   5638
@@ -284,7 +275,7 @@ tidy_des %>%
 ```
 
 ```
-## # A tibble: 24,989 x 2
+## # A tibble: 24,989 × 2
 ##    word        n
 ##    <chr>   <int>
 ##  1 book     2088
@@ -317,7 +308,7 @@ head(edbf_term_counts)
 ```
 
 ```
-## # A tibble: 6 x 3
+## # A tibble: 6 × 3
 ## # Groups:   year [6]
 ##    year word      n
 ##   <dbl> <chr> <int>
@@ -347,7 +338,7 @@ head(edbf_term_counts)
 ```
 
 ```
-## # A tibble: 6 x 4
+## # A tibble: 6 × 4
 ## # Groups:   year [6]
 ##    year word      n womword
 ##   <dbl> <chr> <int>   <int>
@@ -373,7 +364,6 @@ Are the keywords we used precise enough? If not, what would you change?
 ```r
 #get counts by year and word
 edbf_counts <- edbf_term_counts %>%
-  complete(year, word, fill = list(n = 0)) %>%
   group_by(year) %>%
   mutate(year_total = sum(n)) %>%
   filter(womword==1) %>%
@@ -387,9 +377,9 @@ head(edbf_counts)
 ```
 
 ```
-## # A tibble: 6 x 3
+## # A tibble: 6 × 3
 ##    year sum_wom year_total
-##   <dbl>   <dbl>      <dbl>
+##   <dbl>   <int>      <int>
 ## 1  2012      22      23146
 ## 2  2013      40      23277
 ## 3  2014      30      25366
@@ -515,7 +505,7 @@ head(babynames)
 ```
 
 ```
-## # A tibble: 6 x 5
+## # A tibble: 6 × 5
 ##    year sex   name          n   prop
 ##   <dbl> <chr> <chr>     <int>  <dbl>
 ## 1  1880 F     Mary       7065 0.0724
@@ -578,7 +568,7 @@ head(totprops)
 ```
 
 ```
-## # A tibble: 6 x 4
+## # A tibble: 6 × 4
 ##   name       prop totaln sex  
 ##   <chr>     <dbl>  <int> <chr>
 ## 1 Aaban         1      5 M    
